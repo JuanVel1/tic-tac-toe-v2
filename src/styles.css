@@ -1,0 +1,91 @@
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #181818; /* Fondo oscuro */
+    color: white;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  /* Título */
+  h1 {
+    font-size: 3rem; /* Texto más grande */
+    margin-bottom: 20px;
+    color: #ffc4c4;
+  }
+  
+  /* Botón de reinicio */
+  .reset {
+    background-color: #444;
+    color: white;
+    border: 1px solid #666;
+    padding: 12px 24px; /* Botón más grande */
+    margin-bottom: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .reset:hover {
+    background-color: #666;
+  }
+  
+  /* Tablero */
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 3px; /* Más espacio entre filas */
+  }
+  
+  /* Fila del tablero */
+  .board-row {
+    display: flex;
+    gap: 15px; /* Más espacio entre celdas */ 
+    margin-bottom: 1rem;
+  }
+  
+  /* Celdas */
+  .cell {
+    width: 100px; /* Tamaño más grande */
+    height: 100px;
+    background-color: #333;
+    border: 2px solid #555;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem; /* Tamaño de la X y O más grande */
+    color: #ff4d4d; /* X roja */
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .cell:hover {
+    background-color: #444;
+  }
+  
+  /* Indicador de turno */
+  .turn-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px; /* Espaciado superior más amplio */
+  }
+  
+  .turn-indicator .x,
+  .turn-indicator .o {
+    font-size: 3rem;
+  }
+  
+  .turn-indicator .x {
+    color: #ff4d4d;
+  }
+  
+  .turn-indicator .o {
+    color: #4d94ff;
+  }
+  
