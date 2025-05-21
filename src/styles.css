@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 /* General */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: #181818; /* Fondo oscuro */
-    color: white;
+    color: #EAEAEA; /* Light text color for readability */
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -15,23 +17,23 @@ body {
   h1 {
     font-size: 3rem; /* Texto más grande */
     margin-bottom: 20px;
-    color: #ffc4c4;
+    color: #FFC4C4; /* Brighter accent color */
   }
   
   /* Botón de reinicio */
   .reset {
-    background-color: #444;
-    color: white;
-    border: 1px solid #666;
-    padding: 12px 24px; /* Botón más grande */
+    background-color: #33CFFF; /* Vibrant blue for 'O' */
+    color: white; /* Good contrast text color */
+    border: 1px solid #666; /* Keep or adjust border as needed */
+    padding: 12px 24px; /* Comfortable click area */
     margin-bottom: 20px;
-    border-radius: 5px;
+    border-radius: 8px; /* Rounded corners */
     cursor: pointer;
     transition: background-color 0.3s;
   }
   
   .reset:hover {
-    background-color: #666;
+    background-color: #28b8e6; /* Slightly darker shade on hover */
   }
   
   /* Tablero */
@@ -39,6 +41,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 3px; /* Más espacio entre filas */
+    background-color: #202020; /* Slightly lighter dark shade for board */
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75); /* Depth for the board */
   }
   
   /* Fila del tablero */
@@ -52,16 +56,16 @@ body {
   .cell {
     width: 100px; /* Tamaño más grande */
     height: 100px;
-    background-color: #333;
-    border: 2px solid #555;
+    background-color: #333; /* Cell background, good contrast */
+    border: 1px solid #444; /* Cleaner border */
     border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem; /* Tamaño de la X y O más grande */
-    color: #ff4d4d; /* X roja */
+    /* font-size and color removed, will be handled by symbol-specific classes */
     cursor: pointer;
     transition: background-color 0.3s;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5); /* Subtle shadow for cells */
   }
   
   .cell:hover {
@@ -69,23 +73,96 @@ body {
   }
   
   /* Indicador de turno */
+  /* Turn Indicator Styles */
   .turn-indicator {
     display: flex;
     justify-content: center;
-    gap: 30px;
-    margin-top: 30px; /* Espaciado superior más amplio */
+    align-items: center; /* Align items vertically */
+    gap: 25px; /* Adjusted gap */
+    margin-top: 15px; /* Adjusted margin */
+    margin-bottom: 25px; /* Added margin to space from reset button */
+    min-height: 50px; /* Ensure it takes up space even if empty for layout consistency */
+  }
+
+  .player-symbol { /* Base class for X and O in the indicator */
+    font-size: 2.5rem; 
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 8px;
   }
   
-  .turn-indicator .x,
-  .turn-indicator .o {
-    font-size: 3rem;
+  .player-symbol.x { /* Specific color for X */
+    color: #FF5733; /* Use your project's X color */
   }
-  
-  .turn-indicator .x {
-    color: #ff4d4d;
+
+  .player-symbol.o { /* Specific color for O */
+    color: #33CFFF; /* Use your project's O color */
   }
-  
-  .turn-indicator .o {
-    color: #4d94ff;
+
+  .player-symbol.active {
+    font-weight: bold;
+    transform: scale(1.15);
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+    opacity: 1 !important; /* Ensure active is fully opaque */
   }
-  
+
+  .player-symbol:not(.active) {
+    opacity: 0.5;
+  }
+
+/* Winning cell styling */
+.winning-cell {
+  background-color: #DAA520; /* Goldenrod color */
+  /* The X and O colors might need adjustment if they don't show well on Goldenrod.
+     The previously defined .cell color for X (#E74C3C) and O (#33CFFF) should be okay.
+     If not, you might need to add:
+     color: #FFFFFF; /* Or a dark color if the X/O are light */
+  */
+}
+
+/* Game Over Status Styling */
+.status.game-over-status {
+    font-size: 2.5rem; /* Or adjust relative to existing h2 size */
+    font-weight: bold;
+    color: #FFD700; /* Gold color for emphasis */
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* Slightly more pronounced shadow */
+    padding: 8px 15px; /* Padding */
+    border-radius: 8px; /* Rounded corners */
+    background-color: rgba(40, 40, 40, 0.3); /* Subtle dark background */
+    margin-bottom: 20px; /* Ensure spacing if not already sufficient */
+    display: inline-block; /* To make padding and background wrap content nicely */
+}
+
+/* Symbol Placement Animation */
+@keyframes placeSymbol {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.symbol-appear {
+    animation: placeSymbol 0.25s ease-out forwards; /* Slightly faster animation */
+    display: inline-block; /* Important for transform and layout */
+    font-size: 3rem; /* Original font size for X/O in cells */
+    line-height: 1;  /* Ensure proper vertical alignment if font size causes issues */
+}
+
+.x-symbol {
+    color: #FF5733; /* Use the project's chosen X color */
+}
+
+.o-symbol {
+    color: #33CFFF; /* Use the project's chosen O color */
+}
+
+/* Optional: If winning cells need specific text color for symbols */
+/* This depends on the chosen .winning-cell background-color */
+/* .winning-cell .symbol-appear { */
+/*   color: #FFFFFF; /* Or another contrasting color */
+/* } */
+/* Current .winning-cell (Goldenrod) should be fine with red/blue symbols. */

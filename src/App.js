@@ -7,7 +7,8 @@ export default function Board() {
     const [squares, setSquares] = useState(Array(9).fill(null));
 
     function handleClick(i) {
-        if (calculateWinner(squares) || squares[i]) {
+        // Check if there's a winner or if the square is already filled
+        if (calculateWinner(squares).winner || squares[i]) {
             return;
         }
         const nextSquares = squares.slice();
@@ -20,10 +21,17 @@ export default function Board() {
         setXIsNext(!xIsNext);
     }
 
-    const winner = calculateWinner(squares);
+    const gameResult = calculateWinner(squares);
+    const currentWinner = gameResult ? gameResult.winner : null;
+    const winningLine = gameResult ? gameResult.line : null;
+    const isDraw = !currentWinner && squares.every(square => square !== null);
+    const isGameOver = currentWinner || isDraw;
+
     let status;
-    if (winner) {
-        status = 'Ganador: ' + winner;
+    if (currentWinner) {
+        status = 'Ganador: ' + currentWinner;
+    } else if (isDraw) { // Check for a draw
+        status = '¡Es un empate!';
     } else {
         status = 'Siguiente jugador: ' + (xIsNext ? 'X' : 'O');
     }
@@ -31,23 +39,32 @@ export default function Board() {
     return (
         <>
             <h1>Tic tac toe</h1>
-            <h2 className="status">{status}</h2>
-            <button onClick={() => reiniciar()} className="reset">Reiniciar</button>
+            <h2 className={`status ${isGameOver ? 'game-over-status' : ''}`}>{status}</h2>
+            {/* New Turn Indicator Section - Placed after status and before reset button */}
+            {!currentWinner && !isDraw && (
+                <div className="turn-indicator">
+                    <span className={`player-symbol x ${xIsNext ? 'active' : ''}`}>X</span>
+                    <span className={`player-symbol o ${!xIsNext ? 'active' : ''}`}>O</span>
+                </div>
+            )}
+            <button onClick={() => reiniciar()} className="reset">
+                {isGameOver ? 'Play Again?' : 'Reiniciar'}
+            </button>
             <div className="grid">
                 <div className="board-row">
-                    <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-                    <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-                    <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+                    <Square value={squares[0]} onSquareClick={() => handleClick(0)} isWinning={winningLine && winningLine.includes(0)} />
+                    <Square value={squares[1]} onSquareClick={() => handleClick(1)} isWinning={winningLine && winningLine.includes(1)} />
+                    <Square value={squares[2]} onSquareClick={() => handleClick(2)} isWinning={winningLine && winningLine.includes(2)} />
                 </div>
                 <div className="board-row">
-                    <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-                    <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-                    <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+                    <Square value={squares[3]} onSquareClick={() => handleClick(3)} isWinning={winningLine && winningLine.includes(3)} />
+                    <Square value={squares[4]} onSquareClick={() => handleClick(4)} isWinning={winningLine && winningLine.includes(4)} />
+                    <Square value={squares[5]} onSquareClick={() => handleClick(5)} isWinning={winningLine && winningLine.includes(5)} />
                 </div>
                 <div className="board-row">
-                    <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-                    <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-                    <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+                    <Square value={squares[6]} onSquareClick={() => handleClick(6)} isWinning={winningLine && winningLine.includes(6)} />
+                    <Square value={squares[7]} onSquareClick={() => handleClick(7)} isWinning={winningLine && winningLine.includes(7)} />
+                    <Square value={squares[8]} onSquareClick={() => handleClick(8)} isWinning={winningLine && winningLine.includes(8)} />
                 </div>
             </div>
         </>
@@ -73,9 +90,9 @@ function calculateWinner(squares) {
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+            return { winner: squares[a], line: lines[i] };
         }
     }
-    return null;
+    return { winner: null, line: null };
 }
 
