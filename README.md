@@ -22,3 +22,9 @@ Sigue los pasos a continuación para clonar y ejecutar el proyecto en tu máquin
 ```bash
 git clone https://github.com/tu-usuario/tic-tac-toe-v2.git
 cd tic-tac-toe
+```
+
+### 1. Correr el proecto
+```bash
+npm run dev
+```
