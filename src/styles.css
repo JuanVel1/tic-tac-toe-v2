@@ -117,7 +117,7 @@ body {
      The previously defined .cell color for X (#E74C3C) and O (#33CFFF) should be okay.
      If not, you might need to add:
      color: #FFFFFF; /* Or a dark color if the X/O are light */
-  */
+  
 }
 
 /* Game Over Status Styling */
